@@ -1,129 +1,62 @@
-# C# SQL Server CRUD Uygulaması
+# C# SQL Server CRUD Application
 
-Bu proje, **C# ve SQL Server** kullanılarak temel veritabanı işlemlerini öğrenmek amacıyla geliştirilmiştir.
+This project is a simple **C# and SQL Server CRUD application** developed to practice database operations using ADO.NET.
 
-Projede ADO.NET ve `Microsoft.Data.SqlClient` kullanılarak SQL Server üzerinde **CRUD (Create, Read, Update, Delete)** işlemleri gerçekleştirilmektedir.
+The application demonstrates how to connect a C# application to SQL Server and perform basic **Create, Read, Update, and Delete (CRUD)** operations.
 
-## 🚀 Kullanılan Teknolojiler
+## 🚀 Technologies Used
 
 * **C#**
 * **.NET**
 * **SQL Server**
 * **Microsoft.Data.SqlClient**
 * **ADO.NET**
-* `DataTable`
-* `SqlDataAdapter`
-* `SqlCommand`
-
-## 📌 Projede Bulunan İşlemler
-
-### 1. Kategori Ekleme
-
-SQL Server içerisindeki `CategoryTable` tablosuna yeni kategori eklenir.
-
-```sql
-INSERT INTO CategoryTable (category_name)
-VALUES (@p1)
-```
-
-Kullanıcıdan alınan kategori adı parametre olarak SQL sorgusuna gönderilir.
-
----
-
-### 2. Ürün Ekleme
-
-`Producttab` tablosuna yeni ürün eklenir.
-
-Eklenen bilgiler:
-
-* Ürün adı
-* Ürün fiyatı
-* Ürün durumu
-
-Örnek SQL sorgusu:
-
-```sql
-INSERT INTO Producttab
-(Product_Name, Product_Price, Product_Status)
-VALUES
-(@productName, @productPrice, @productStatus)
-```
-
----
-
-### 3. Veri Listeleme
-
-`Producttab` tablosundaki ürünler SQL Server'dan çekilir.
-
-Bu işlemde:
-
+* `SqlConnection`
 * `SqlCommand`
 * `SqlDataAdapter`
 * `DataTable`
 * `DataRow`
 
-kullanılmıştır.
+## 📌 Features
 
-Örnek sorgu:
+### Create
 
-```sql
-SELECT * FROM Producttab
-```
+Add new categories and products to the database.
 
-Çekilen veriler `foreach` döngüsü kullanılarak konsola yazdırılır.
+### Read
 
----
+Retrieve products from SQL Server and display them in the console.
 
-### 4. Ürün Silme
+### Update
 
-Kullanıcıdan alınan ürün ID'sine göre ilgili ürün silinir.
+Update an existing product's name and price using its ID.
 
-```sql
-DELETE FROM Producttab
-WHERE Product_id = @productId
-```
+### Delete
 
-Ürün ID'si SQL parametresi olarak gönderilmektedir.
+Delete a product from the database using its ID.
 
----
+## 🗄️ Database
 
-### 5. Ürün Güncelleme
+The project uses SQL Server with the following tables:
 
-Kullanıcının belirttiği ürünün:
+### CategoryTable
 
-* ID'si
-* Adı
-* Fiyatı
+| Column          | Description   |
+| --------------- | ------------- |
+| `category_name` | Category name |
 
-güncellenebilir.
+### Producttab
 
-```sql
-UPDATE Producttab
-SET
-    Product_Name = @productName,
-    Product_Price = @productPrice
-WHERE Product_id = @productId
-```
+| Column           | Description    |
+| ---------------- | -------------- |
+| `Product_id`     | Product ID     |
+| `Product_Name`   | Product name   |
+| `Product_Price`  | Product price  |
+| `Product_Status` | Product status |
 
-## 🔐 SQL Parametreleri
+## 🔌 Connection String
 
-Projede SQL sorgularında kullanıcıdan gelen veriler doğrudan sorguya eklenmek yerine **parametreler** kullanılarak gönderilmektedir.
-
-Örneğin:
-
-```csharp
-command1.Parameters.AddWithValue("@productName", Product_Namee);
-command1.Parameters.AddWithValue("@productId", Product_idd);
-command1.Parameters.AddWithValue("@productPrice", Product_Pricee);
-```
-
-Bu yaklaşım SQL sorgularının daha güvenli ve düzenli hazırlanmasını sağlar.
-
-## 🗄️ Veritabanı
-
-Projede SQL Server kullanılmaktadır.
-
-Mevcut bağlantı yapısı:
+The current project uses a local SQL Server connection:
 
 ```text
 Server=localhost;
@@ -132,72 +65,84 @@ Integrated Security=True;
 TrustServerCertificate=True;
 ```
 
-> Projeyi kendi bilgisayarınızda çalıştırırken SQL Server kurulumunuza göre `Server` ve `Database` bilgilerini değiştirmeniz gerekebilir.
+You may need to modify the connection string according to your SQL Server configuration.
 
-## 📂 Tablo Yapısı
+## 🔐 SQL Parameters
 
-### CategoryTable
+The project uses SQL parameters when sending user input to the database.
 
-| Kolon           | Açıklama     |
-| --------------- | ------------ |
-| `category_name` | Kategori adı |
+Example:
 
-### Producttab
+```csharp
+command1.Parameters.AddWithValue("@productName", Product_Namee);
+command1.Parameters.AddWithValue("@productId", Product_idd);
+command1.Parameters.AddWithValue("@productPrice", Product_Pricee);
+```
 
-| Kolon            | Açıklama    |
-| ---------------- | ----------- |
-| `Product_id`     | Ürün ID     |
-| `Product_Name`   | Ürün adı    |
-| `Product_Price`  | Ürün fiyatı |
-| `Product_Status` | Ürün durumu |
+Using parameters makes SQL queries safer and helps prevent SQL injection when handling user input.
 
-## ▶️ Çalıştırma
+## 📚 CRUD Operations
 
-1. SQL Server'ı çalıştırın.
-2. Gerekli tabloları oluşturun.
-3. Projeyi Visual Studio veya VS Code ile açın.
-4. `Microsoft.Data.SqlClient` paketinin yüklü olduğundan emin olun.
-5. Connection String bilgilerini kendi SQL Server ortamınıza göre düzenleyin.
-6. Projeyi çalıştırın.
+The project includes examples of:
 
-## 🎯 Projenin Amacı
+```sql
+INSERT
+SELECT
+UPDATE
+DELETE
+```
 
-Bu proje, **C# ile SQL Server arasındaki bağlantıyı öğrenmek** ve temel veritabanı işlemlerini uygulamalı olarak geliştirmek amacıyla hazırlanmıştır.
+For example, updating a product:
 
-Özellikle aşağıdaki konular üzerinde pratik yapılmıştır:
+```sql
+UPDATE Producttab
+SET Product_Name = @productName,
+    Product_Price = @productPrice
+WHERE Product_id = @productId
+```
 
-* SQL Server bağlantısı
+## ▶️ How to Run
+
+1. Install and run **SQL Server**.
+2. Create the required database tables.
+3. Open the project in Visual Studio or VS Code.
+4. Make sure `Microsoft.Data.SqlClient` is installed.
+5. Update the connection string if necessary.
+6. Build and run the project.
+
+## 🎯 Project Purpose
+
+The main purpose of this project is to practice connecting **C# applications with SQL Server** and understand how database operations work in a backend application.
+
+The project provides hands-on practice with:
+
+* SQL Server connections
+* ADO.NET
 * `SqlConnection`
 * `SqlCommand`
 * `SqlDataAdapter`
 * `DataTable`
-* `DataRow`
-* SQL parametreleri
-* INSERT
-* SELECT
-* UPDATE
-* DELETE
-* C# ile kullanıcıdan veri alma
+* SQL parameters
+* CRUD operations
+* Console-based user input
 
-## 🔮 Geliştirilebilir Özellikler
+## 🔮 Future Improvements
 
-Projeye ilerleyen aşamalarda şu özellikler eklenebilir:
+* [ ] Add a complete console menu
+* [ ] Add exception handling with `try-catch`
+* [ ] Improve connection management with `using`
+* [ ] Replace `AddWithValue` with strongly typed parameters
+* [ ] Add product search
+* [ ] Add product filtering
+* [ ] Add category-product relationships
+* [ ] Use Foreign Keys
+* [ ] Add Stored Procedures
+* [ ] Implement a layered architecture
+* [ ] Implement Repository Pattern
+* [ ] Convert the project into an ASP.NET Core Web API
 
-* [ ] Menü tabanlı CRUD sistemi
-* [ ] Try-Catch ile hata yönetimi
-* [ ] `using` yapısı ile bağlantı yönetimi
-* [ ] `AddWithValue` yerine güçlü tipli SQL parametreleri
-* [ ] Kategori ve ürün ilişkisi
-* [ ] Foreign Key kullanımı
-* [ ] Ürün arama
-* [ ] Ürün filtreleme
-* [ ] Stored Procedure kullanımı
-* [ ] Katmanlı mimariye geçiş
-* [ ] Repository Pattern
-* [ ] ASP.NET Core Web API'ye dönüştürme
+## 👨‍💻 Learning Project
 
-## 👨‍💻 Öğrenme Süreci
+This project was created as part of my **C# and backend development learning journey**.
 
-Bu proje, C# öğrenme sürecinde **ADO.NET ve SQL Server** konularını pekiştirmek amacıyla geliştirilmiştir.
-
-Temel CRUD işlemlerinden başlayarak proje zaman içerisinde daha gelişmiş bir backend uygulamasına dönüştürülebilir.
+It starts with basic database operations and can later be expanded into a more advanced backend application.
